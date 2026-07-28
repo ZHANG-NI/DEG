@@ -175,7 +175,7 @@ def train_instance(
         ##################################################
         # Loss from paths after local search
         if guided_exploration:
-            n_ants_nls = n_samples
+            n_samples_nls = n_samples
             _, log_probs_nls, feasible_idx = sampler.gen_path(  # type: ignore
                 require_prob=True,
                 invtemp=1.0,  # invtemp is 1.0 here, otherwise gradients from offpolicy data will be overestimated
@@ -185,9 +185,9 @@ def train_instance(
                 paths_nls = paths_nls[:, feasible_idx]  # type: ignore
                 costs_nls = costs_nls[feasible_idx]  # type: ignore
                 advantage_nls = advantage_nls[feasible_idx]  # type: ignore
-                n_ants_nls = len(feasible_idx)  # type: ignore
+                n_samples_nls = len(feasible_idx)  # type: ignore
 
-            forward_flow_nls = log_probs_nls.sum(0) + logZ_nls.expand(n_ants_nls)  # type: ignore
+            forward_flow_nls = log_probs_nls.sum(0) + logZ_nls.expand(n_samples_nls)  # type: ignore
             backward_flow_nls = calculate_log_pb_uniform(paths_nls.T) - advantage_nls.detach() * beta  # type: ignore
             tb_loss_nls = torch.pow(forward_flow_nls - backward_flow_nls, 2).mean()
             sum_loss_nls += tb_loss_nls
@@ -327,7 +327,7 @@ def train(
         n_nodes,
         k_sparse,
         n_samples,
-        n_val_ants,
+        n_val_samples,
         steps_per_epoch,
         epochs,
         lr=1e-4,
@@ -355,7 +355,7 @@ def train(
     val_list = load_val_dataset(n_nodes, k_sparse, DEVICE, TAM)
     val_list = val_list[:(val_size or len(val_list))]
 
-    best_result = validation(val_list, n_val_ants, net, 0, steps_per_epoch)
+    best_result = validation(val_list, n_val_samples, net, 0, steps_per_epoch)
 
     sum_time = 0
     for epoch in range(1, epochs + 1):
@@ -390,7 +390,7 @@ def train(
         sum_time += time.time() - start
 
         if epoch % val_interval == 0:
-            curr_result = validation(val_list, n_val_ants, net, epoch, steps_per_epoch)
+            curr_result = validation(val_list, n_val_samples, net, epoch, steps_per_epoch)
             if curr_result < best_result:
                 torch.save(net.state_dict(), os.path.join(savepath, f'best.pt'))
                 best_result = curr_result
@@ -413,7 +413,7 @@ if __name__ == "__main__":
                         help="The device to train NNs")
     parser.add_argument("-p", "--pretrained", type=str, default=None, help="Path to pretrained model")
     parser.add_argument("-a", "--samples", type=int, default=20, help="Number of samples (in Sampler algorithm)")
-    parser.add_argument("-va", "--val_ants", type=int, default=50, help="Number of samples for validation")
+    parser.add_argument("-va", "--val_samples", type=int, default=50, help="Number of samples for validation")
     parser.add_argument("-b", "--batch_size", type=int, default=10, help="Batch size")
     parser.add_argument("-s", "--steps", type=int, default=20, help="Steps per epoch")
     parser.add_argument("-e", "--epochs", type=int, default=300, help="Epochs to run")
@@ -501,7 +501,7 @@ if __name__ == "__main__":
         args.nodes,
         args.k_sparse,
         args.samples,
-        args.val_ants,
+        args.val_samples,
         args.steps,
         args.epochs,
         lr=args.lr,

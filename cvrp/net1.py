@@ -113,7 +113,7 @@ class Net(nn.Module):
 
     @staticmethod
     def reshape(pyg, vector):
-        """Turn phe/heu vector into matrix with zero padding"""
+        """Turn weight/heu vector into matrix with zero padding"""
         n_nodes = pyg.x.shape[0]
         device = pyg.x.device
         matrix = torch.zeros(size=(n_nodes, n_nodes), device=device)

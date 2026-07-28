@@ -84,7 +84,7 @@ def main(ckpt_path, n_nodes, k_sparse, size=None, n_samples=100, n_iter=10, guid
     #dirname = os.path.dirname(ckpt_path) if ckpt_path is not None else f'../pretrained/tsp_nls/{args.nodes}/no_model'
     #os.makedirs(dirname, exist_ok=True)
 
-    #result_filename = f"test_result_ckpt{filename}-tsp{n_nodes}-ninst{size}-nants{n_samples}-niter{n_iter}-seed{seed}"
+    #result_filename = f"test_result_ckpt{filename}-tsp{n_nodes}-ninst{size}-nsamples{n_samples}-niter{n_iter}-seed{seed}"
     #result_file = os.path.join(dirname, result_filename + ".txt")
     #with open(result_file, "w") as f:
         #f.write(f"problem scale: {n_nodes}\n")

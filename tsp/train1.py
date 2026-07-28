@@ -316,7 +316,7 @@ def train(
         n_nodes,
         k_sparse,
         n_samples,
-        n_val_ants,
+        n_val_samples,
         steps_per_epoch,
         epochs,
         lr=1e-4,
@@ -345,7 +345,7 @@ def train(
     val_list = load_val_dataset(100, 20, DEVICE, start_node=START_NODE)
     val_list = val_list[:(val_size or len(val_list))]
 
-    best_result = validation(val_list, n_val_ants, net, 0, steps_per_epoch)
+    best_result = validation(val_list, n_val_samples, net, 0, steps_per_epoch)
 
     sum_time = 0
     for epoch in range(1, epochs + 1):
@@ -381,7 +381,7 @@ def train(
         sum_time += time.time() - start
 
         if epoch % val_interval == 0:
-            curr_result = validation(val_list, n_val_ants, net, epoch, steps_per_epoch)
+            curr_result = validation(val_list, n_val_samples, net, epoch, steps_per_epoch)
             if curr_result < best_result:
                 torch.save(net.state_dict(), os.path.join(savepath, f"best.pt"))
                 best_result = curr_result
@@ -405,7 +405,7 @@ if __name__ == "__main__":
                         help="The device to train NNs")
     parser.add_argument("-p", "--pretrained", type=str, default=None, help="Path to pretrained model")
     parser.add_argument("-a", "--samples", type=int, default=20, help="Number of samples (in Sampler algorithm)")
-    parser.add_argument("-va", "--val_ants", type=int, default=100, help="Number of samples for validation")
+    parser.add_argument("-va", "--val_samples", type=int, default=100, help="Number of samples for validation")
     parser.add_argument("-b", "--batch_size", type=int, default=10, help="Batch size")
     parser.add_argument("-s", "--steps", type=int, default=20, help="Steps per epoch")
     parser.add_argument("-e", "--epochs", type=int, default=300, help="Epochs to run")
@@ -476,7 +476,7 @@ if __name__ == "__main__":
         args.nodes,
         args.k_sparse,
         args.samples,
-        args.val_ants,
+        args.val_samples,
         args.steps,
         args.epochs,
         lr=args.lr,

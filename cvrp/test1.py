@@ -52,9 +52,9 @@ def infer_instance(model, pyg_data, demands, distances, positions, n_samples, t_
         n_samples=n_samples,
         heuristic=heu_mat.cpu() if heu_mat is not None else heu_mat,
         k_sparse=k_sparse,
-        elitist=ACOALG == "ELITIST",
-        maxmin=ACOALG == "MAXMIN",
-        rank_based=ACOALG == "RANK",
+        elitist=SAMPLERALG == "ELITIST",
+        maxmin=SAMPLERALG == "MAXMIN",
+        rank_based=SAMPLERALG == "RANK",
         device="cpu",
         local_search_type="nls",
     )
@@ -121,7 +121,7 @@ def main(ckpt_path, n_nodes, k_sparse, size=None, n_samples=100, n_iter=10, guid
     dirname = os.path.dirname(ckpt_path) if ckpt_path is not None else f'../pretrained/cvrp_nls/{args.nodes}/no_model'
     os.makedirs(dirname, exist_ok=True)
     
-    result_filename = f"test_result_ckpt{filename}-cvrp{n_nodes}-ninst{size}-{ACOALG}-nants{n_samples}-niter{n_iter}-seed{seed}"
+    result_filename = f"test_result_ckpt{filename}-cvrp{n_nodes}-ninst{size}-{SAMPLERALG}-nsamples{n_samples}-niter{n_iter}-seed{seed}"
     result_file = os.path.join(dirname, result_filename + ".txt")
     with open(result_file, "w") as f:
         f.write(f"problem scale: {n_nodes}\n")
@@ -169,7 +169,7 @@ if __name__ == "__main__":
 
     DEVICE = args.device if torch.cuda.is_available() else 'cpu'
     TAM = args.tam
-    ACOALG = args.sampler
+    SAMPLERALG = args.sampler
 
     # seed everything
     torch.manual_seed(args.seed)
