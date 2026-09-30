@@ -1,4 +1,4 @@
-# Diffusion-Enhanced GFlowNet for Vehicle Routing Problems
+# Diffusion-Enhanced GFlowNet for Solving Vehicle Routing Problems
 
 This paper has been accepted by **NeurIPS 2026**: [OpenReview](https://openreview.net/forum?id=5pGVh6PbGd)
 
