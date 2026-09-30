@@ -1,14 +1,14 @@
 # Diffusion-Enhanced GFlowNet for Solving Vehicle Routing Problems
 
-This paper has been accepted by **NeurIPS 2026**: [OpenReview](https://openreview.net/forum?id=5pGVh6PbGd)
+This paper has been accepted by **NeurIPS 2026**: [OpenReview:Diffusion-Enhanced GFlowNet for Solving Vehicle Routing Problems](https://openreview.net/forum?id=5pGVh6PbGd)
 
-## Training (DEG)
+## Training
 ```bash
 TSP : cd tsp  && python train1.py <n_nodes>     
 CVRP: cd cvrp && python train1.py <n_nodes>
 ```
 
-## Inference / reproducing tables
+## Inference
 ```bash
 TSP : cd tsp  && python test.py  <n_nodes> -p <ckpt> -n 100 -i 10 --seed 1
 CVRP: cd cvrp && python test1.py <n_nodes> -p <ckpt> -n 100 -i 10 --seed 1
