@@ -18,7 +18,7 @@ If you find our work helpful, please consider citing the following paper:
 
 ```bibtex
 @inproceedings{zhang2026deg,
-  title     = {Diffusion-Enhanced GFlowNet for Solving Vehicle Routing Problems},
+  title     = {DEG: Diffusion-Enhanced GFlowNet for Solving Vehicle Routing Problems},
   author    = {Zhang, Ni and Zhang, Zhiqin and Pan, Ling and Lau, Hoong Chuin and Cao, Zhiguang},
   booktitle = {Advances in Neural Information Processing Systems},
   year      = {2026},
